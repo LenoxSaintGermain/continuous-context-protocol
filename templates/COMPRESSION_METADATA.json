@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "project_name": "PROJECT_NAME",
+  "created": "YYYY-MM-DDTHH:MM:SSZ",
+  "last_updated": "YYYY-MM-DDTHH:MM:SSZ",
+
+  "current_architecture": "monolithic",
+
+  "thresholds": {
+    "tier1_lines": 1000,
+    "tier2_lines": 2000,
+    "tier3_lines": 5000,
+    "tier1_entry_batch": 10,
+    "tier1_age_days": 30
+  },
+
+  "current_state": {
+    "total_lines": 0,
+    "estimated_tokens": 0,
+    "entry_count": 0,
+    "oldest_entry_date": null,
+    "newest_entry_date": null,
+    "domains": {}
+  },
+
+  "compressions": [
+    {
+      "id": "compression-001",
+      "date": "YYYY-MM-DDTHH:MM:SSZ",
+      "tier": 1,
+      "trigger": "auto",
+      "before_state": {
+        "lines": 0,
+        "tokens": 0,
+        "entries": 0
+      },
+      "after_state": {
+        "lines": 0,
+        "tokens": 0,
+        "entries": 0
+      },
+      "reduction": {
+        "lines": 0,
+        "tokens": 0,
+        "percentage": 0
+      },
+      "actions_taken": [
+        "Compressed 10 entries from 2026-01-29 to 2026-02-05",
+        "Created period summary (12 lines)",
+        "Archived to: docs/ledgers/archive/BATCH_2026-01-29_2026-02-05.md"
+      ],
+      "files_created": [
+        "docs/ledgers/archive/BATCH_2026-01-29_2026-02-05.md"
+      ],
+      "agent_id": "agent-session-id-here",
+      "notes": "First compression after crossing 1000 line threshold"
+    }
+  ],
+
+  "sharding_events": [
+    {
+      "id": "shard-001",
+      "date": "YYYY-MM-DDTHH:MM:SSZ",
+      "trigger": "manual",
+      "domains_created": [
+        "auth",
+        "ui",
+        "audio",
+        "server",
+        "integration",
+        "deployment"
+      ],
+      "distribution": {
+        "auth": 245,
+        "ui": 312,
+        "audio": 189,
+        "server": 428,
+        "integration": 156,
+        "deployment": 98
+      },
+      "index_file": "EXECUTION_LEDGER_INDEX.md",
+      "archive_location": "docs/ledgers/archive/LEDGER_PRE_SHARD_2026-03-12.md",
+      "agent_id": "agent-session-id-here",
+      "notes": "Crossed 2000 line threshold, sharded for token efficiency"
+    }
+  ],
+
+  "semantic_compressions": [
+    {
+      "id": "semantic-001",
+      "date": "YYYY-MM-DDTHH:MM:SSZ",
+      "source_lines": 5247,
+      "extracted_principles": 42,
+      "current_truth_file": "docs/ledgers/chronicle/CURRENT_TRUTH_2026-03-12.md",
+      "full_chronicle_file": "docs/ledgers/chronicle/FULL_CHRONICLE_2026-03-12.md",
+      "domains_analyzed": [
+        "auth",
+        "ui",
+        "audio",
+        "server",
+        "integration",
+        "deployment"
+      ],
+      "agent_id": "agent-session-id-here",
+      "notes": "First semantic compression. Extracted core architectural principles from 5000+ entries."
+    }
+  ],
+
+  "statistics": {
+    "total_compressions": 0,
+    "total_lines_compressed": 0,
+    "total_tokens_saved": 0,
+    "total_entries_archived": 0,
+    "average_compression_ratio": 0,
+    "current_token_efficiency": "monolithic"
+  },
+
+  "files": {
+    "main_ledger": "EXECUTION_LEDGER.md",
+    "index": null,
+    "current_truth": null,
+    "domain_ledgers": {},
+    "archives": []
+  },
+
+  "notes": [
+    "This metadata file tracks all compression events for the Continuous Context Protocol",
+    "Updated automatically by librarian-compress skill",
+    "Do not manually edit unless recovering from compression failure"
+  ]
+}

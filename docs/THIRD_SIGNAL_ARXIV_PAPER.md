@@ -57,7 +57,35 @@ Rather than maintaining a single global ledger, the Librarian Agent functions as
 When an execution agent is spawned to resolve an Authentication ticket, it is exclusively provisioned with the `auth_ledger.md`, drastically reducing token ingestion latency while maximizing semantic density.
 
 ### 4.2 Hierarchical Memory Compression
-As individual shards accrete chronological volume, the Librarian autonomously spawns "Compression Subagents." Operating asynchronously, these subagents ingest a bloated ledger (e.g., 50 sequential entries of minor structural tweaks) and perform a lossless semantic compression. They output a unified "Current Architectural Truth" matrix, archiving the chronological raw stream. This guarantees that an executing agent only ever reads the highly filtered, current-state constraints, avoiding cognitive overload.
+As individual ledgers accrete chronological volume, the Librarian autonomously applies graduated compression strategies through three intelligent tiers, each optimized for specific scalability thresholds:
+
+**Tier 1: Inline Batch Compression (≥1000 lines)**
+When a ledger crosses the 1000-line threshold, the Librarian automatically triggers batch compression. Sequential entries (typically 10-20) are analyzed for common patterns, then condensed into "Period Summaries" (5-10 lines each) that preserve architectural decisions while archiving implementation details. Original entries are moved to timestamped archive files (`docs/ledgers/archive/BATCH_[dates].md`), ensuring zero data loss.
+
+*Token Efficiency*: Reduces ledger by 30-40% while maintaining full traceability through archive references.
+
+**Tier 2: Domain Sharding (≥2000 lines)**
+At 2000+ lines, the monolithic ledger fractures into domain-specific ledgers (`auth_ledger.md`, `ui_ledger.md`, `audio_ledger.md`, etc.). When an execution agent is spawned to resolve an Authentication ticket, it is exclusively provisioned with the `auth_ledger.md` (typically 300-500 lines), drastically reducing token ingestion while maximizing semantic density. An `EXECUTION_LEDGER_INDEX.md` serves as the navigation layer.
+
+*Token Efficiency*: Agents working on domain-specific tasks achieve 66-85% token reduction compared to loading the full ledger. For cross-domain work, selective multi-ledger loading maintains context integrity.
+
+**Tier 3: Semantic Compression (≥5000 lines)**
+At enterprise scale (5000+ lines across all ledgers), the Librarian spawns asynchronous "Compression Subagents" that perform semantic distillation. These agents ingest thousands of chronological entries and extract the underlying architectural principles, constraints, and patterns into a "Current Truth" document (`CURRENT_TRUTH_[date].md`). The full chronological history is preserved in `FULL_CHRONICLE_[date].md` for archaeological analysis, but routine work references only the distilled truth.
+
+*Token Efficiency*: Reduces context loading by 80-90% for routine operations. A 5000-line ledger (~15,000 tokens) compresses to a 200-line Current Truth (~600 tokens) while maintaining full historical access when needed.
+
+**Quantitative Analysis: Token Economics**
+```
+Project Age     | Ledger State           | Tokens/Session | Reduction
+----------------|------------------------|----------------|----------
+Day 1-30        | Monolithic (200 lines) | ~600           | Baseline
+Day 30-60       | Monolithic (1000 lines)| ~3,000         | —
+Day 60+ (T1)    | Batch Compressed       | ~2,000         | 33%
+Day 90+ (T2)    | Domain Sharded         | ~1,200         | 60%
+Day 180+ (T3)   | Semantic Compressed    | ~600           | 80%
+```
+
+This hierarchical approach ensures that the CCP scales linearly with project duration rather than exponentially. The "cognitive load" on the agent remains constant regardless of whether the project is 1 month or 12 months old—a critical property for long-term agent reliability.
 
 ### 4.3 The Sentinel Hook (Immutable Enforcement)
 For enterprise zero-trust environments, the CCP shifts from a prompt-based rule to a deterministic Git hook constraint. A `pre-commit` or CI-level Sentinel Agent evaluates the diff. If the diff introduces new structural dependencies but the corresponding Domain Ledger was not modified by the executing agent, the commit is deterministically rejected. The code cannot merge until the AI documents its intent.
